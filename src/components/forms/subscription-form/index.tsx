@@ -23,6 +23,7 @@ const SubscriptionForm = ({ selectedPriceId }: Props) => {
     setPriceError('')
     event.preventDefault()
     if (!stripeHook || !elements) return
+    
 
     try {
       const { error } = await stripeHook.confirmPayment({
@@ -31,6 +32,7 @@ const SubscriptionForm = ({ selectedPriceId }: Props) => {
           return_url: `${process.env.NEXT_PUBLIC_URL}/agency`,
         },
       })
+      console.log(error)
       if (error) {
         throw new Error()
       }
@@ -39,12 +41,12 @@ const SubscriptionForm = ({ selectedPriceId }: Props) => {
         description: 'Your payment has been successfully processed. ',
       })
     } catch (error) {
-      console.log(error)
+      console.log("Error ", error)
       toast({
         variant: 'destructive',
         title: 'Payment failed',
-        description:
-          'We couldnt process your payment. Please try a different card',
+        description: `error ${error}`,
+          //'We couldnt process your payment. Please try a different card',
       })
     }
   }

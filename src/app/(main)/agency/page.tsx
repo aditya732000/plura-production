@@ -4,14 +4,30 @@ import { currentUser } from '@clerk/nextjs'
 import { Plan } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import {stripe} from '@/lib/stripe'
 
 const Page = async ({
   searchParams,
 }: {
-  searchParams: { plan: Plan; state: string; code: string }
+  searchParams: { plan: Plan; state: string; code: string, payment_intent: string, payment_intent_client_secret :string, redirect_status : string }
 }) => {
   const agencyId = await verifyAndAcceptInvitation()
-  console.log(agencyId)
+  console.log(searchParams)
+  if (searchParams.payment_intent) {
+    try {
+    const paymentIntent = await stripe.paymentIntents.retrieve(searchParams.payment_intent)
+    switch (paymentIntent?.status) {
+      case "succeeded":
+        console.log("Payment succeeded!");
+        break;
+      case "processing":
+        break;
+    }
+  } catch(error) {
+    console.log(error)
+  }
+  }
+
 
   //get the users details
   const user = await getAuthUserDetails()

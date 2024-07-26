@@ -12,6 +12,7 @@ type Props = {
 
 const FileUpload = ({ apiEndpoint, onChange, value }: Props) => {
   const type = value?.split('.').pop()
+  console.log("file-upload.tsx - value", value);
 
   if (value) {
     return (

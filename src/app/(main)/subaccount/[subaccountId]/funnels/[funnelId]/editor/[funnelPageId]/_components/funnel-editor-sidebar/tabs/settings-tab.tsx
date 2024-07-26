@@ -42,6 +42,7 @@ const SettingsTab = (props: Props) => {
   const { state, dispatch } = useEditor()
 
   const handleOnChanges = (e: any) => {
+    console.log(e)
     const styleSettings = e.target.id
     let value = e.target.value
     const styleObject = {

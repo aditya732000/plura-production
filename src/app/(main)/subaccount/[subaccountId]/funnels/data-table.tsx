@@ -46,6 +46,7 @@ export default function FunnelsDataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   })
+  console.log(table.getColumn(filterValue)?.getFilterValue())
   return (
     <>
       <div className="flex items-center justify-between">

@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
     console.log(`🔴 Error ${error.message}`)
     return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 })
   }
+  console.log("Heeeree")
 
   //
   try {
@@ -45,6 +46,7 @@ export async function POST(req: NextRequest) {
         switch (stripeEvent.type) {
           case 'customer.subscription.created':
           case 'customer.subscription.updated': {
+            console.log("Here2")
             if (subscription.status === 'active') {
               await subscriptionCreated(
                 subscription,
@@ -56,8 +58,8 @@ export async function POST(req: NextRequest) {
                 'SKIPPED AT CREATED FROM WEBHOOK 💳 because subscription status is not active',
                 subscription
               )
-              break
             }
+            break
           }
           default:
             console.log('👉🏻 Unhandled relevant event!', stripeEvent.type)

@@ -157,6 +157,7 @@ const editorReducer = (
       return newEditorState
 
     case 'UPDATE_ELEMENT':
+      console.log("Here")
       // Perform your logic to update the element in the state
       const updatedElements = updateAnElement(state.editor.elements, action)
 

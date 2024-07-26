@@ -65,6 +65,7 @@ const FunnelForm: React.FC<CreateFunnelProps> = ({
   const isLoading = form.formState.isLoading
 
   const onSubmit = async (values: z.infer<typeof CreateFunnelFormSchema>) => {
+    console.log(values)
     if (!subAccountId) return
     const response = await upsertFunnel(
       subAccountId,

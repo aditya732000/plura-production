@@ -382,6 +382,7 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
       },
     },
   })
+  console.log(response)
   return response
 }
 

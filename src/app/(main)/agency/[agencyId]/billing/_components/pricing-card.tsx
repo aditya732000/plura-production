@@ -25,7 +25,7 @@ type Props = {
   highlightTitle: string
   highlightDescription: string
   customerId: string
-  prices: PricesList['data']
+  prices: PricesList['data'] | undefined | null | string
   planExists: boolean
 }
 
@@ -47,6 +47,7 @@ const PricingCard = ({
   const plan = searchParams.get('plan')
 
   const handleManagePlan = async () => {
+    console.log("Here")
     setOpen(
       <CustomModal
         title={'Manage Your Plan'}

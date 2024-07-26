@@ -8,6 +8,7 @@ import BlurPage from '@/components/global/blur-page'
 
 const Funnels = async ({ params }: { params: { subaccountId: string } }) => {
   const funnels = await getFunnels(params.subaccountId)
+  console.log(!funnels)
   if (!funnels) return null
 
   return (

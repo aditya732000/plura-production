@@ -14,18 +14,23 @@ import {
 } from '@/components/ui/table'
 import clsx from 'clsx'
 import SubscriptionHelper from './_components/subscription-helper'
+import { PricesList } from '@/lib/types'
+import Stripe from 'stripe'
 
 type Props = {
   params: { agencyId: string }
 }
 
 const page = async ({ params }: Props) => {
+  let addOnC : PricesList['data'] = [];
   //CHALLENGE : Create the add on  products
   const addOns = await stripe.products.list({
     ids: addOnProducts.map((product) => product.id),
     expand: ['data.default_price'],
   })
-
+  addOns.data.forEach((addOn) => {
+    addOnC.push(addOn.default_price as Stripe.Price)
+  })
   const agencySubscription = await db.agency.findUnique({
     where: {
       id: params.agencyId,
@@ -40,6 +45,7 @@ const page = async ({ params }: Props) => {
     product: process.env.NEXT_PLURA_PRODUCT_ID,
     active: true,
   })
+
 
   const currentPlanDetails = pricingCards.find(
     (c) => c.priceId === agencySubscription?.Subscription?.priceId
@@ -113,7 +119,7 @@ const page = async ({ params }: Props) => {
         {addOns.data.map((addOn) => (
           <PricingCard
             planExists={agencySubscription?.Subscription?.active === true}
-            prices={prices.data}
+            prices={[addOn.default_price as Stripe.Price]}
             customerId={agencySubscription?.customerId || ''}
             key={addOn.id}
             amt={
